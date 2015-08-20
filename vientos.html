@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>VIENTOS</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+	  <script src="TVientoVar.js"></script>
+<script src="automatizar.sh"></script>
+	  
+	
+    <script>
+		
+		 function localizame() {
+           navigator.geolocation.getCurrentPosition(coordenadas);
+     }
+     
+     function coordenadas(){
+           var latitud = position.coords.latitude;
+           var longitud = position.coords.longitude;
+     }
+// This example displays a marker at the center of Australia.
+// When the user clicks the marker, an info window opens.
+var contador=0;
+var infoWindow;
+		
+var lat_0;
+var lon_0;
+var VGRD_P0_L6_GLL0;
+var UGRD_P0_L6_GLL0;
+		
+function initialize() {
+var mapOptions = {
+     zoom: 6
+    //center: myLatlng
+  };
+
+//geolocalización
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(position){
+var pos = new google.maps.LatLng(position.coords.latitude,
+                                 position.coords.longitude);
+
+var infowindow = new google.maps.InfoWindow({
+map: map,
+position: pos,
+content: 'Usted se encuentra AQUI!!!.'
+});
+map.setCenter(pos);
+}, function(){
+handleNoGeolocation(true);
+});
+}else{
+handleNoGeolocation(false);
+}
+  
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+for(var i=0;i<lon_0.length;i++){
+ for(var j=0; j<lat_0.length;j++){
+	 
+	 
+var marker = new google.maps.Marker({
+     position: new google.maps.LatLng(lat_0[j],lon_0[i]),	     
+     map: map, 
+      title: 'latitud: '+lat_0[j]+'\nlongitud: '+lon_0[i]+'\nValor de U: '+UGRD_P0_L6_GLL0[contador]+'\nValor de V: '+VGRD_P0_L6_GLL0[contador]
+	
+  });
+ 	
+	 contador=contador+1;	 	 
+	 
+	 
+}
+}
+
+  }
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+ </body>
+</html>
+
+ 
